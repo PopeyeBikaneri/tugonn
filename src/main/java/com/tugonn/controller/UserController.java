@@ -5,6 +5,8 @@ import com.tugonn.service.UserService;
 import com.tugonn.util.HTTPResponse;
 import com.tugonn.util.HttpConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -35,19 +37,19 @@ public class UserController {
 
     @GetMapping("/user/list")
     public Map<String,Object> getAllUser(){
-        List<User> studentList = userService.getAllUser();
-        if (studentList.size()>0){
-            return httpResponse.getHttpResponse(studentList, HttpConstants.SUCCESS,HttpConstants.SUCCESS_STATUS_CODE);
+        List<User> userList = userService.getAllUser();
+        if (userList.size()>0){
+            return httpResponse.getHttpResponse(userList, HttpConstants.SUCCESS,HttpConstants.SUCCESS_STATUS_CODE);
         }else {
-            return httpResponse.getHttpResponse(null,HttpConstants.DATA_NOT_FOUND,HttpConstants.BAD_REQUEST_STATUS_CODE);
+            return httpResponse.getHttpResponse(null, HttpConstants.DATA_NOT_FOUND,HttpConstants.BAD_REQUEST_STATUS_CODE);
         }
     }
 
     @GetMapping("/user")
     public Map<String,Object> getUserById(@RequestParam(value = "id")int id){
-        Optional<User> studentList = userService.getUserById(id);
-        if (studentList.isPresent()){
-            return httpResponse.getHttpResponse(studentList, HttpConstants.SUCCESS,HttpConstants.SUCCESS_STATUS_CODE);
+        Optional<User> userOptional = userService.getUserById(id);
+        if (userOptional.isPresent()){
+            return httpResponse.getHttpResponse(userOptional, HttpConstants.SUCCESS,HttpConstants.SUCCESS_STATUS_CODE);
         }else {
             return httpResponse.getHttpResponse(null,HttpConstants.DATA_NOT_FOUND,HttpConstants.BAD_REQUEST_STATUS_CODE);
         }
@@ -55,9 +57,9 @@ public class UserController {
 
     @GetMapping("/user/v1/{id}")
     public Map<String,Object> getUserByIdV1(@PathVariable int id){
-        Optional<User> studentList = userService.getUserById(id);
-        if (studentList.isPresent()){
-            return httpResponse.getHttpResponse(studentList, HttpConstants.SUCCESS,HttpConstants.SUCCESS_STATUS_CODE);
+        Optional<User> userList = userService.getUserById(id);
+        if (userList.isPresent()){
+            return httpResponse.getHttpResponse(userList, HttpConstants.SUCCESS,HttpConstants.SUCCESS_STATUS_CODE);
         }else {
             return httpResponse.getHttpResponse(null,HttpConstants.DATA_NOT_FOUND,HttpConstants.BAD_REQUEST_STATUS_CODE);
         }
@@ -215,9 +217,9 @@ public class UserController {
         }
     }
 
-    private String encryptPassword(String plainPassword) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.encode(plainPassword);
-    }
+//    private String encryptPassword(String plainPassword) {
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        return encoder.encode(plainPassword);
+//    }
 
 }
