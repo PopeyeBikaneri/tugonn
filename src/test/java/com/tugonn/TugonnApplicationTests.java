@@ -1,4 +1,4 @@
-package com.tugonn.tugonn;
+package com.tugonn;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
